@@ -6,18 +6,6 @@ const {
   prefix
 } = require('./config.json');
 
-const users = []
-const availableNicknames = []
-const formatUser = userData => {
-  const user = {
-    "id": userData.id,
-    "username": userData.username,
-    "discriminator": userData.discriminator
-  }
-  users.push(user);
-  availableNicknames.push(userData.username)
-}
-
 client.login(token);
 
 client.on('ready', () => {
@@ -26,16 +14,24 @@ client.on('ready', () => {
 
 client.on('message', msg => {
   if (msg.content.startsWith(`${prefix}alakazam`)) {
-    msg.reply('Pong!');
+    const users = [] // lista dostępnych użytkowników
+    const availableNicknames = []
+    msg.reply('Szufla nicków!');
     const onlineUsers = client.users;
     onlineUsers.forEach(user => {
-      formatUser(user)
+
+      users.push({
+        "id": userData.id,
+        "username": userData.username,
+        "discriminator": userData.discriminator
+      });
+      availableNicknames.push(userData.username)
     })
     users.forEach(user => {
-      const tempAvailableNicknames = availableNicknames.filter(val => val != user.username);
-      msg.guild.fetchMember(user.id)
+      const tempAvailableNicknames = availableNicknames.filter(val => val != user.username); // utworznie tablicy z podanego warunku
+      msg.guild.fetchMember(user.id) //pobranie użytkownika po jego id
         .then(member => {
-          member.setNickname(tempAvailableNicknames[Math.floor(Math.random() * tempAvailableNicknames.length)]).catch(e => console.log(e))
+          member.setNickname(tempAvailableNicknames[Math.floor(Math.random() * tempAvailableNicknames.length)]) //ustanienie nicku
         })
     })
 
