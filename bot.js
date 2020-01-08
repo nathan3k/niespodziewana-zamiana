@@ -19,13 +19,12 @@ client.on('message', msg => {
     msg.reply('Szufla nicków!');
     const onlineUsers = client.users;
     onlineUsers.forEach(user => {
-
       users.push({
-        "id": userData.id,
-        "username": userData.username,
-        "discriminator": userData.discriminator
+        "id": user.id,
+        "username": user.username,
+        "discriminator": user.discriminator
       });
-      availableNicknames.push(userData.username)
+      availableNicknames.push(user.username)
     })
     users.forEach(user => {
       const tempAvailableNicknames = availableNicknames.filter(val => val != user.username); // utworznie tablicy z podanego warunku
